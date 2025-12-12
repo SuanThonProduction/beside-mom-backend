@@ -6,6 +6,7 @@ ENV DB_NAME=besidemom
 ENV SSL_MODE=disable
 ENV APP_HOST=0.0.0.0
 ENV APP_PORT=5000
+ENV CORS=https://www.besidemom.com,https://besidemom.com,http://localhost:3000
 ENV BUCKET_NAME=Beside-Mom
 ENV EMAIL_HOST=smtp.gmail.com
 ENV EMAIL_PORT=587
