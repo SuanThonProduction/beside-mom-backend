@@ -14,6 +14,7 @@ type Configs struct {
 	Supabase   Supabase
 	Mail       Mail
 	Chat       Chat
+	CORS       CORS
 }
 
 type Fiber struct {
@@ -48,6 +49,10 @@ type Supabase struct {
 }
 
 type Chat struct {
+	URL string
+}
+
+type CORS struct {
 	URL string
 }
 
@@ -86,6 +91,9 @@ func LoadConfigs() *Configs {
 		},
 		Chat: Chat{
 			URL: os.Getenv("CHAT_API_URL"),
+		},
+		CORS: CORS{
+			URL: os.Getenv("CORS"),
 		},
 	}
 }
