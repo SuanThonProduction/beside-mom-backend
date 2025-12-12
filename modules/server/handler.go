@@ -15,7 +15,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func SetupRoutes(app *fiber.App, jwt configs.JWT, supa configs.Supabase, mail configs.Mail, chat configs.Chat) {
+func SetupRoutes(app *fiber.App, jwt configs.JWT, supa configs.Supabase, mail configs.Mail, chat configs.Chat, cor configs.CORS) {
 	db := database.GetDB()
 	if db == nil {
 		log.Fatal("Failed to initialize database")
@@ -23,7 +23,7 @@ func SetupRoutes(app *fiber.App, jwt configs.JWT, supa configs.Supabase, mail co
 
 	app.Use(helmet.New())
 	app.Use(cors.New(cors.Config{
-		AllowOrigins:     "https://www.besidemom.com,https://besidemom.com,http://localhost:3000",
+		AllowOrigins:     cor.URL,
 		AllowMethods:     "GET,POST,PUT,DELETE,OPTIONS",
 		AllowHeaders:     "Origin,Content-Type,Accept,Authorization,X-Requested-With,User-Agent",
 		AllowCredentials: true,

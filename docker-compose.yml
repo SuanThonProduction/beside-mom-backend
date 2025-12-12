@@ -40,6 +40,7 @@ services:
       - APP_HOST=0.0.0.0
       - APP_PORT=5000
       - JWT_SECRET=${JWT_SECRET}
+      - CORS=${CORS}
       - CHAT_API_URL=http://besidemombot:8000
     restart: on-failure
 
