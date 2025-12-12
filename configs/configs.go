@@ -62,38 +62,46 @@ func LoadConfigs() *Configs {
 		log.Println("No .env file found, reading from environment variables")
 	}
 
+	requireEnv := func(key string) string {
+		value := os.Getenv(key)
+		if value == "" {
+			log.Fatalf("CRITICAL ERROR: Missing required environment variable '%s'", key)
+		}
+		return value
+	}
+
 	return &Configs{
 		PostgreSQL: PostgreSQL{
-			Host:     os.Getenv("DB_HOST"),
-			Port:     os.Getenv("DB_PORT"),
-			Username: os.Getenv("DB_USER"),
-			Password: os.Getenv("DB_PASSWORD"),
-			Database: os.Getenv("DB_NAME"),
-			SSLMode:  os.Getenv("SSL_Mode"),
+			Host:     requireEnv("DB_HOST"),
+			Port:     requireEnv("DB_PORT"),
+			Username: requireEnv("DB_USER"),
+			Password: requireEnv("DB_PASSWORD"),
+			Database: requireEnv("DB_NAME"),
+			SSLMode:  requireEnv("SSL_MODE"),
 		},
 		App: Fiber{
-			Host: os.Getenv("APP_HOST"),
-			Port: os.Getenv("APP_PORT"),
+			Host: requireEnv("APP_HOST"),
+			Port: requireEnv("APP_PORT"),
 		},
 		JWT: JWT{
-			Secret: os.Getenv("JWT_SECRET"),
+			Secret: requireEnv("JWT_SECRET"),
 		},
 		Supabase: Supabase{
-			URL:    os.Getenv("SUPABASE_URL"),
-			Key:    os.Getenv("SUPABASE_KEY"),
-			Bucket: os.Getenv("BUCKET_NAME"),
+			URL:    requireEnv("SUPABASE_URL"),
+			Key:    requireEnv("SUPABASE_KEY"),
+			Bucket: requireEnv("BUCKET_NAME"),
 		},
 		Mail: Mail{
-			Host:   os.Getenv("EMAIL_HOST"),
-			Port:   os.Getenv("EMAIL_PORT"),
-			Sender: os.Getenv("EMAIL_USER"),
-			Key:    os.Getenv("EMAIL_PASS"),
+			Host:   requireEnv("EMAIL_HOST"),
+			Port:   requireEnv("EMAIL_PORT"),
+			Sender: requireEnv("EMAIL_USER"),
+			Key:    requireEnv("EMAIL_PASS"),
 		},
 		Chat: Chat{
-			URL: os.Getenv("CHAT_API_URL"),
+			URL: requireEnv("CHAT_API_URL"),
 		},
 		CORS: CORS{
-			URL: os.Getenv("CORS"),
+			URL: requireEnv("CORS"),
 		},
 	}
 }
