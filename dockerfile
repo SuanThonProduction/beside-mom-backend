@@ -1,4 +1,14 @@
-FROM golang:1.23.3
+FROM golang:1.24-bookworm AS builder
+
+WORKDIR /app
+
+COPY go.mod go.sum ./
+RUN go mod download
+
+COPY . .
+RUN go build -o main .
+
+FROM gcr.io/distroless/base-debian12
 ENV DB_HOST=postgres
 ENV DB_PORT=5432
 ENV DB_USER=admin
@@ -11,9 +21,6 @@ ENV BUCKET_NAME=Beside-Mom
 ENV EMAIL_HOST=smtp.gmail.com
 ENV EMAIL_PORT=587
 ENV EMAIL_USER=kasianbot66@gmail.com
-WORKDIR /app
-COPY go.mod go.sum ./
-RUN go mod download
-COPY . .
-RUN go build -o main .
-CMD ["./main"]
+COPY --from=builder /app/main /app/main
+USER nonroot:nonroot
+CMD ["/app/main"]
